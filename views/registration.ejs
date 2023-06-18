@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Мій лендінг</title>
+    <link rel="stylesheet" href="views/styles.css" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.3.1/fabric.min.js"></script>
+    </body>
+</head>
+
+<body class="registration-body">
+    <div class="top-bar">
+        <button class="find-button" onclick="window.location.href='/findBadge'"> 
+            <span class="button-text">Знайти</span>
+          </button>
+        <button class="btn" onclick="window.location.href='/findBadge'">Пошук сертифікатів</button>
+        <button class="btn" onclick="window.location.href='/login'">Увійти</button>
+    </div>
+    <div class="registration-container">
+        <form method="POST" action="/registration">
+            <h1>Реєстрація</h1>
+            <div class="form-group">
+                <label for="fullname">ПІБ:</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            <div class="form-group">
+                <label for="course">Логін</label>
+                <input type="text" id="login" name="login" required>
+            </div>
+            <div class="form-group">
+                <label for="hours">Пароль</label>
+                <input type="password" id="password" name="password" required></input>
+            </div>
+            </script>
+            <button type="submit">Створити акаунт</button>
+        </form>
+    </div>
+    <footer>
+        <div>
+          <p>&copy; 2023 My Website. All rights reserved.</p>
+        </div>
+      </footer>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!-- <!DOCTYPE html> -->
+<html>
+
+<head>
+  <title>Генератор бейджів</title>
+  <link rel="stylesheet" href="/views/find.css" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.3.1/fabric.min.js"></script>
+  <script src="main.js"></script>
+  </body>
+</head>
+
+<body>
+  <div class="top-bar">
+    <% if (token) { %>
+      <button class="btn" onclick="window.location.href='/'">Створити сертифікат</button>
+      <button class="btn" onclick="window.location.href='/login'">Вийти</button>
+    <% } else { %>
+      <button class="btn" onclick="window.location.href='/login'">Увійти</button>
+      <button class="btn" onclick="window.location.href='/registration'">Зареєструватися</button>
+      <% } %>
+  </div>
+  <div class="container">
+    <h1>Знайти бейдж</h1>
+    <div class="form-group">
+      <label for="numberOfBadge">Введіть номер, який знаходиться в лівому верхньому куті бейджа:</label>
+      <form method="GET" action="/findBadge">
+        <input type="text" id="numberOfBadge" name="numberOfBadge" required>
+        <button type="submit">Знайти</button>
+      </form>
+    </div>
+  </div>
+  <% if (item !=false) { %>
+    <% if (item===null) { %>
+      <h3 class="finding-error">Бейджу з таким номером не існує.</h3>
+      <% } else { %>
+        <div class="container2">
+          <span class="container-span-1">
+            <%= item.number %>
+          </span>
+          <span class="container-span-2"></span>
+          <span class="container-span-3">
+            <%= item.fullname %>
+          </span>
+          <span class="container-span-4">
+             Виданий: <%= item.first_date %>
+          </span>
+          <span class="container-span-5">
+              Дійсний до: <%= item.last_date %>
+          </span>
+        </div>
+        <% } %>
+          <% } %>
+            <footer>
+              <div>
+                <p>&copy; 2023 My Website. All rights reserved.</p>
+              </div>
+            </footer>
+</body>
+
+</html>
