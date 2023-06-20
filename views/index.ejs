@@ -2,44 +2,44 @@
 <html>
 
 <head>
-  <title>Генерування бейджів</title>
-  <link rel="stylesheet" href="views/home.css" type="text/css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.3.1/fabric.min.js"></script>
-  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script src="/views/main.js"></script>
-  </body>
+    <title>Генерування бейджів</title>
+    <link rel="stylesheet" href="views/home.css" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.3.1/fabric.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="/views/main.js"></script>
+    </body>
 </head>
 
 <body class="home-body">
-  <div class="top-bar ">
-    <button class="find-button" onclick="window.location.href='/findBadge'"> 
-      <span class="button-text">Знайти</span>
+<div class="top-bar ">
+    <button class="find-button" onclick="window.location.href='/findBadge'">
+        <span class="button-text">Знайти</span>
     </button>
-    <button class="find-button" onclick="window.location.href='/login'"> 
-      <span class="button-text">Вийти</span>
+    <button class="find-button" onclick="window.location.href='/auth/signout'">
+        <span class="button-text">Вийти</span>
     </button>
-  </div>
-  <div class="container">
+</div>
+<div class="container">
     <h1>Створити бейдж</h1>
     <div class="form-group">
-      <label for="fullname">ПІБ:</label>
-      <input type="text" id="fullname" name="fullname" required>
+        <label for="fullname">ПІБ:</label>
+        <input type="text" id="fullname" name="fullname" required>
     </div>
     <!-- <div class="form-group">
       <label for="course">Досягнення/пройдений курс:</label>
       <input type="text" id="course" name="course" required>
     </div> -->
     <div class="form-group">
-      <label for="date">Дата отримання:</label>
-      <input type="date" id="date" name="date" required></input>
+        <label for="date">Дата отримання:</label>
+        <input type="date" id="date" name="date" required></input>
     </div>
     <div class="form-group">
-      <label for="end_date">Дата закінчення придатності:</label>
-      <input type="date" id="end_date" name="end_date" required></input>
+        <label for="end_date">Дата закінчення придатності:</label>
+        <input type="date" id="end_date" name="end_date" required></input>
     </div>
     </script>
     <button type="submit" onclick="createBadge()">Створити</button>
-  </div>
+</div>
 </body>
 
 </html>

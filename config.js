@@ -1,9 +1,33 @@
-exports.DB_ENDPOINT = 'https://vats9121.documents.azure.com:443/';
-exports.DB_KEY = 'ZQaFbra6rPUyfMwfIhHDJQbcFM4Q6qeWFSMXY0Vsj6BUq62olYVwqYrWpwRhBBKolDi98dGnwIorACDbSih8PA==';
-exports.DB_ID = 'Vats';
-exports.DB_CONTAINER = 'VatsItems';
+require('dotenv').config();
 
-exports.AZURE_AD_IDENTITY_METADATA = '';
-exports.AZURE_AD_CLIENT_ID = '';
-exports.AZURE_AD_REDIRECT_URL = '';
-exports.AZURE_AD_CLIENT_SECRET = '';
+const msalConfig = {
+    auth: {
+        clientId: process.env.CLIENT_ID, // 'Application (client) ID' of app registration in Azure portal - this value is a GUID
+        authority: process.env.CLOUD_INSTANCE + process.env.TENANT_ID, // Full directory URL, in the form of https://login.microsoftonline.com/<tenant>
+        clientSecret: process.env.CLIENT_SECRET // Client secret generated from the app registration in Azure portal
+    },
+    system: {
+        loggerOptions: {
+            loggerCallback(loglevel, message, containsPii) {
+                console.log(message);
+            },
+            piiLoggingEnabled: false,
+            logLevel: "Info",
+        }
+    }
+}
+
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const POST_LOGOUT_REDIRECT_URI = process.env.POST_LOGOUT_REDIRECT_URI;
+const GRAPH_ME_ENDPOINT = process.env.GRAPH_API_ENDPOINT + "v1.0/me";
+
+module.exports = {
+    msalConfig,
+    REDIRECT_URI,
+    POST_LOGOUT_REDIRECT_URI,
+    GRAPH_ME_ENDPOINT,
+    DB_ENDPOINT: process.env.DB_ENDPOINT,
+    DB_KEY: process.env.DB_KEY,
+    DB_ID: process.env.DB_ID,
+    DB_CONTAINER: process.env.DB_CONTAINER
+};

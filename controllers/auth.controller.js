@@ -1,70 +1,98 @@
-const express = require('express');
-const passport = require('passport');
-const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
+const msal = require('@azure/msal-node');
 
-const {saveUserToDB, checkUser} = require("../helpers/auth.helper");
+const {
+    msalConfig,
+    REDIRECT_URI,
+    POST_LOGOUT_REDIRECT_URI
+} = require('../config');
 
-const {AZURE_AD_IDENTITY_METADATA, AZURE_AD_CLIENT_ID, AZURE_AD_CLIENT_SECRET,AZURE_AD_REDIRECT_URL} = require('../config');
+const msalInstance = new msal.ConfidentialClientApplication(msalConfig);
+const cryptoProvider = new msal.CryptoProvider();
 
+async function redirectToAuthCodeUrl(req, res, next, authCodeUrlRequestParams, authCodeRequestParams) {
+    const {verifier, challenge} = await cryptoProvider.generatePkceCodes();
 
-// const azureADConfig = {
-//     identityMetadata: AZURE_AD_IDENTITY_METADATA,
-//     clientID: AZURE_AD_CLIENT_ID,
-//     responseType: 'code',
-//     responseMode: 'form_post',
-//     redirectUrl: AZURE_AD_REDIRECT_URL,
-//     allowHttpForRedirectUrl: true,
-//     clientSecret: AZURE_AD_CLIENT_SECRET,
-//     validateIssuer: false,
-//     passReqToCallback: false,
-//     scope: ['openid', 'profile'],
-// };
+    req.session.pkceCodes = {
+        challengeMethod: 'S256',
+        verifier: verifier,
+        challenge: challenge,
+    };
 
-exports.getRegistration = async (req, res, next) => {
+    req.session.authCodeUrlRequest = {
+        redirectUri: REDIRECT_URI,
+        responseMode: 'form_post',
+        codeChallenge: req.session.pkceCodes.challenge,
+        codeChallengeMethod: req.session.pkceCodes.challengeMethod,
+        ...authCodeUrlRequestParams,
+    };
+
+    req.session.authCodeRequest = {
+        redirectUri: REDIRECT_URI,
+        code: "",
+        ...authCodeRequestParams,
+    };
+
     try {
-        req.session.destroy();
-        res.render('registration.ejs');
+        const authCodeUrlResponse = await msalInstance.getAuthCodeUrl(req.session.authCodeUrlRequest);
+        res.redirect(authCodeUrlResponse);
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.signIn = async (req, res, next) => {
+    try {
+        req.session.csrfToken = cryptoProvider.createNewGuid();
+
+        const state = cryptoProvider.base64Encode(
+            JSON.stringify({
+                csrfToken: req.session.csrfToken,
+                redirectTo: '/'
+            })
+        );
+
+        const authCodeUrlRequestParams = {state: state, scopes: []};
+
+        const authCodeRequestParams = {scopes: []};
+
+        return redirectToAuthCodeUrl(req, res, next, authCodeUrlRequestParams, authCodeRequestParams)
     } catch (error) {
         next(error);
     }
 };
 
-exports.registrationUser = async (req, res, next) => {
-    try {
-        const {login, fullname, password} = req.body;
+exports.redirect = async (req, res, next) => {
+    if (req.body.state) {
+        const state = JSON.parse(cryptoProvider.base64Decode(req.body.state));
 
-        await saveUserToDB(fullname, login, password);
+        // check if csrfToken matches
+        if (state.csrfToken === req.session.csrfToken) {
+            req.session.authCodeRequest.code = req.body.code; // authZ code
+            req.session.authCodeRequest.codeVerifier = req.session.pkceCodes.verifier
 
-        res.redirect('/login');
-    } catch (error) {
-        next(error);
+            try {
+                const tokenResponse = await msalInstance.acquireTokenByCode(req.session.authCodeRequest);
+                req.session.accessToken = tokenResponse.accessToken;
+                req.session.idToken = tokenResponse.idToken;
+                req.session.account = tokenResponse.account;
+                req.session.isAuthenticated = true;
+
+                res.redirect(state.redirectTo);
+            } catch (error) {
+                next(error);
+            }
+        } else {
+            next(new Error('csrf token does not match'));
+        }
+    } else {
+        next(new Error('state is missing'));
     }
 };
 
+exports.signOut = async (req, res) => {
+    const logoutUri = `${msalConfig.auth.authority}/oauth2/v2.0/logout?post_logout_redirect_uri=${POST_LOGOUT_REDIRECT_URI}`;
 
-exports.getLogin = async (req, res, next) => {
-    try {
-        req.session.destroy();
+    req.session.destroy();
 
-        const paramValue = req.query.loginError;
-
-        paramValue !== undefined ? res.render('login.ejs', {item: true}) : res.render('login.ejs', {item: false});
-    } catch (error) {
-        next(error);
-    }
-};
-
-exports.loginUser = async (req, res, next) => {
-    try {
-        const {login, password} = req.body;
-
-        await checkUser(login, password, function (element) {
-            if (element) {
-                req.session.username = element.username;
-                res.redirect('/');
-            } else res.redirect('/login?loginError');
-        });
-    } catch (error) {
-        next(error);
-    }
+    res.redirect(logoutUri);
 };

@@ -6,18 +6,18 @@ exports.findBadge = async (req, res, next) => {
 
         if (numberOfBadge === undefined) {
             if (req.session.username !== undefined) {
-                res.render('findBadge2.ejs', {item: false, token: true})
+                res.render('findBadge2.ejs', {item: false, token: true, isAuthenticated: req.session.isAuthenticated,})
             } else {
-                res.render('findBadge2.ejs', {item: false, token: false})
+                res.render('findBadge2.ejs', {item: false, token: false, isAuthenticated: req.session.isAuthenticated,})
             }
         } else {
             if (req.session.username !== undefined) {
                 await findBadgeByNumber(numberOfBadge, function (element) {
-                    res.render('findBadge2.ejs', {item: element, token: true})
+                    res.render('findBadge2.ejs', {item: element, token: true, isAuthenticated: req.session.isAuthenticated,})
                 });
             } else {
                 await findBadgeByNumber(numberOfBadge, function (element) {
-                    res.render('findBadge2.ejs', {item: element, token: false})
+                    res.render('findBadge2.ejs', {item: element, token: false, isAuthenticated: req.session.isAuthenticated,})
                 });
             }
         }
