@@ -137,7 +137,8 @@ input[type="password"] {
 }
 
 
-button {
+button,
+a.button {
   display: block;
   margin: 20px auto 0;
   padding: 10px 20px;
@@ -145,6 +146,7 @@ button {
   margin-top: 30px;
   background-color: #8919e6;
   color: #fff;
+  text-decoration: none;
   border: none;
   border-radius: 5px;
   cursor: pointer;

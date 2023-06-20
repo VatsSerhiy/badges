@@ -7,7 +7,7 @@ exports.findBadgeByNumber = async (number, callback) => {
     const container = cosmosClient.database(DB_ID).container(DB_CONTAINER);
 
     const querySpec = {
-        query: 'SELECT * FROM badges WHERE badges.number = @number',
+        query: 'SELECT * FROM badges WHERE badges.id = @number',
         parameters: [
             {
                 name: '@number',
@@ -24,16 +24,13 @@ exports.findBadgeByNumber = async (number, callback) => {
     }
 }
 
-exports.saveInfoToDB =  async (number, fullname, course, date, end_date) => {
+exports.saveInfoToDB =  async (id, img) => {
     const container = cosmosClient.database(DB_ID).container(DB_CONTAINER);
     const newItem = {
-        number: number,
-        course: course,
-        fullname: fullname,
-        first_date: date,
-        last_date: end_date
+        id,
+        img
     };
 
     const {resource: createdItem} = await container.items.create(newItem);
-    console.log('Info has been saved to the database.');
+    return createdItem;
 }

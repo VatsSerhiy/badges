@@ -11,6 +11,19 @@ body {
     position: relative;
 }
 
+
+.save {
+    position: absolute;
+    right: 0;
+    bottom: -80px;
+}
+
+.preview {
+    position: absolute;
+    right: 145px;
+    bottom: -80px;
+}
+
 .top-bar {
     position: fixed;
     top: 0;
@@ -142,7 +155,8 @@ input[type="password"]::placeholder {
     color: #72767d;
 }
 
-button {
+button,
+a.button {
     display: block;
     margin: 20px auto 0;
     padding: 10px 20px;
@@ -152,10 +166,12 @@ button {
     color: #ffffff;
     border: none;
     border-radius: 5px;
+    text-decoration: none;
     cursor: pointer;
 }
 
-button:hover {
+button:hover,
+a.button:hover {
     background-color: #624dedb5;
 }
 

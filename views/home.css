@@ -11,31 +11,13 @@ body {
     position: relative;
 }
 
-.canvas-container {
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    left: 0;
-    width: 100%;
-    height: 550px;
-    margin: 30px;
-    margin-top: 0px;
-    z-index: 0;
-  }
-  
-  .lower-canvas {
-    position: relative;
-    transform: translate(27%, 0%);
-    border: 0px solid black;
-  }
-
 .top-bar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     background-color: rgba(41, 41, 41, 0.345);
-    padding: 0px;
+    padding: 0;
     display: flex;
     justify-content: space-between;
     z-index: 1;
@@ -43,76 +25,104 @@ body {
 }
 
 .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    margin-top: 150px;
+    position: relative;
+    padding-bottom: 100px;
+}
+
+.badge__create {
+    margin: 0 auto;
+}
+
+.form {
     background-color: #2f3136;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
     width: 500px;
-    height: 420px;
+    height: 490px;
     padding: 20px;
-    margin: 0 auto;
-    margin-top: 150px;
-    margin-bottom: 70px;
     position: relative;
 }
 
-.container2 {
-    background-image: url("/images/photo_2023-06-08_15-25-07.jpg");
-    background-size: cover;
-    background-position: center;
+.badge {
+    background-color: #2f3136;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-    width: 700px;
-    height: 400px;
+    width: 500px;
+    height: 160px;
     padding: 20px;
-    margin: 0 auto;
-    margin-top: 20px;
-    margin-bottom: 70px;
     position: relative;
+    color: #fff;
+    align-items: center;
+    display: none;
 }
 
-.container-span-1 {
-    font-size: 12;
-    color: white;
+.save {
     position: absolute;
-    top: 3%;
-    left: 10%;
-    transform: translate(-50%, -50%);
+    right: 0;
+    bottom: -80px;
 }
 
-.container-span-2 {
-    font-size: 30;
-    color: white;
+.preview {
     position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    right: 145px;
+    bottom: -80px;
 }
 
-.container-span-3 {
-    font-size: 28;
-    color: white;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.badge.visible {
+    display: flex;
 }
 
-.container-span-4 {
-    font-size: 20;
-    color: white;
+.badge__id {
     position: absolute;
-    top: 79%;
-    left: 31%;
-    transform: translate(-50%, -50%);
+    font-size: 14px;
+    right: 15px;
+    top: 13px;
+    color: aquamarine;
 }
 
-.container-span-5 {
-    font-size: 20;
-    color: white;
-    position: absolute;
-    top: 79%;
-    left: 79%;
-    transform: translate(-50%, -50%);
+.badge__content {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.badge__icon {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    background: #6851FF;
+    margin-right: 15px;
+}
+
+.badge__heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc(100% - 115px);
+}
+
+.badge__title {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.badge__desc {
+    font-size: 18px;
+}
+
+.badge__dates {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
 }
 
 h1 {
@@ -162,29 +172,28 @@ input[type="password"]::placeholder {
     color: #72767d;
 }
 
-button {
+button,
+a.button {
     display: block;
-    margin: 20px auto 0;
     padding: 10px 20px;
-    margin-bottom: 30px;
-    margin-top: 30px;
+    margin: 30px auto;
     background-color: #634ded;
+    text-decoration: none;
     color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-button:hover {
+button:hover,
+a.button:hover {
     background-color: #624dedb5;
 }
 
 .home-button {
     display: block;
-    margin: 20px auto 0;
     padding: 10px 20px;
-    margin-bottom: 30px;
-    margin-top: 30px;
+    margin: 30px auto;
     background-color: #634ded;
     color: #ffffff;
     border: none;
@@ -204,14 +213,14 @@ footer {
     background-color: rgba(41, 41, 41, 0.345);
     padding: 10px;
     color: white;
-    bottom: 0%;
+    bottom: 0;
     width: 100%;
     margin-top: 70px;
     text-align: center;
 }
 
-.finding-error{
-    color:rgb(255, 255, 255);
+.finding-error {
+    color: rgb(255, 255, 255);
     text-align: center;
     margin: 0 auto;
 }
