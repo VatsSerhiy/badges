@@ -10,9 +10,9 @@
 
 <body class="login-body">
     <div class="top-bar">
-        <button class="btn" onclick="window.location.href='/findBadge'">Пошук сертифікатів</button>
+        <button class="btn" onclick="window.location.href='/findBadge'">Пошук бейджів</button>
         <% if (isAuthenticated) { %>
-            <button class="btn" onclick="window.location.href='/create'">Створити сертифікат</button>
+            <button class="btn" onclick="window.location.href='/create'">Створити бейдж</button>
             <button class="btn" onclick="window.location.href='/auth/signout'">Вихід</button>
         <% } else { %>
             <button class="btn" onclick="window.location.href='/auth/signin'">Авторизація</button>
